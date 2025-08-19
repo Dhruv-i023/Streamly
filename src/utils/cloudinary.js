@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
+
+
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
@@ -6,6 +10,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 
 const uploadOnCloudinary = async (localFilePath) => {
   try {
@@ -18,7 +23,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     console.log("File uploaded to Cloudinary:", uploadResult.url);
 
     // remove the file from local storage after successful upload
-    // fs.unlinkSync(localFilePath);
+    await fs.unlinkSync(localFilePath);
 
     return uploadResult;
   } catch (error) {
